@@ -1,0 +1,20 @@
+server:
+  port: 3001
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      maximum-pool-size: 1
+      minimum-idle: 1
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+logging:
+  root: DEBUG
+backend:
+  security:
+    jwt-secret: secret

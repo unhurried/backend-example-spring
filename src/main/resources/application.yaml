@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    driver-class-name: dummy
+    url: dummy
+    type: dummy
+    hikari:
+      maximum-pool-size: dummy
+      minimum-idle: dummy
+logging:
+  root: INFO
+backend:
+  security:
+    # cors-origin: http://localhost:3000
+    # jwt-secret: secret
