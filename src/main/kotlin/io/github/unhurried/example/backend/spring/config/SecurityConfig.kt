@@ -1,12 +1,15 @@
 package io.github.unhurried.example.backend.spring.config
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Bean
 import org.springframework.core.env.Environment
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder
+import org.springframework.security.web.DefaultSecurityFilterChain
+import org.springframework.security.web.SecurityFilterChain
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
@@ -14,11 +17,12 @@ import java.nio.charset.StandardCharsets
 import javax.crypto.spec.SecretKeySpec
 
 @EnableWebSecurity
-class SecurityConfig: WebSecurityConfigurerAdapter() {
+class SecurityConfig {
     @Autowired
     private lateinit var environment: Environment
 
-    override fun configure(http: HttpSecurity) {
+    @Bean
+    fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http.cors().configurationSource(generateCorsConfig())
 
         val jwksUri = environment.getProperty("backend.security.jwks-uri")
@@ -31,6 +35,8 @@ class SecurityConfig: WebSecurityConfigurerAdapter() {
             throw java.lang.IllegalArgumentException("Either backend.security.jwks-uri" +
                     " or backend.security.jwt-secret must be specified.")
         }
+
+        return http.build()
     }
 
     private fun generateCorsConfig(): CorsConfigurationSource {
