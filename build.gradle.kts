@@ -2,16 +2,16 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
 	id("idea")
-	id("org.springframework.boot") version "2.5.5"
-	id("io.spring.dependency-management") version "1.0.11.RELEASE"
-	kotlin("jvm") version "1.5.31"
-	kotlin("plugin.spring") version "1.5.31"
-	kotlin("plugin.jpa") version "1.5.31"
+	id("org.springframework.boot") version "2.7.2"
+	id("io.spring.dependency-management") version "1.0.12.RELEASE"
+	kotlin("jvm") version "1.6.21"
+	kotlin("plugin.spring") version "1.6.21"
+	kotlin("plugin.jpa") version "1.6.21"
 	`maven-publish`
 }
 
 group = "io.github.unhurried"
-version = "0.1.0"
+version = "0.1.1"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
