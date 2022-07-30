@@ -10,11 +10,14 @@ import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder
 import org.springframework.security.web.DefaultSecurityFilterChain
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.AuthenticationFailureHandler
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import java.nio.charset.StandardCharsets
 import javax.crypto.spec.SecretKeySpec
+import javax.ws.rs.core.MediaType
+import javax.ws.rs.core.Response.Status
 
 @EnableWebSecurity
 class SecurityConfig {
@@ -27,10 +30,15 @@ class SecurityConfig {
 
         val jwksUri = environment.getProperty("backend.security.jwks-uri")
         val jwtSecret = environment.getProperty("backend.security.jwt-secret")
+        val configurer = http.oauth2ResourceServer().authenticationEntryPoint { _, response, _ ->
+            response.status = Status.UNAUTHORIZED.statusCode
+            response.contentType = MediaType.APPLICATION_JSON
+            response.writer.print("{\"errorCode\":\"unauthorized\"}")
+        }
         if (jwksUri != null) {
-            http.oauth2ResourceServer().jwt().jwkSetUri(jwksUri)
+            configurer.jwt().jwkSetUri(jwksUri)
         } else if (jwtSecret != null) {
-            http.oauth2ResourceServer().jwt().decoder(createJwtDecoder(jwtSecret))
+            configurer.jwt().decoder(createJwtDecoder(jwtSecret))
         } else {
             throw java.lang.IllegalArgumentException("Either backend.security.jwks-uri" +
                     " or backend.security.jwt-secret must be specified.")
