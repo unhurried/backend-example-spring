@@ -1,6 +1,6 @@
 package io.github.unhurried.example.backend.spring.resource
 
-import io.github.unhurried.example.backend.spring.helper.BeanHelper
+import io.github.unhurried.example.backend.spring.helper.CopyObjectHelper
 import io.github.unhurried.example.backend.spring.repository.ToDoRepository
 import io.github.unhurried.example.backend.spring.repository.entity.ToDo
 import io.github.unhurried.example.backend.spring.resource.bean.ListParam
@@ -27,7 +27,7 @@ import javax.ws.rs.core.Response
 @Consumes(MediaType.APPLICATION_JSON) // Content-Type of request body
 @Produces(MediaType.APPLICATION_JSON) // Content-Type of response body
 @Transactional // Make all the methods in the class transactional.
-class ToDoResource (private val repository: ToDoRepository, private val beanHelper: BeanHelper) {
+class ToDoResource (private val repository: ToDoRepository, private val beanHelper: CopyObjectHelper) {
     private val beanToEntity = { src: ToDoBean, target: ToDo ->
         target.category = ToDo.Category.valueOf(src.category.toString())
     }
