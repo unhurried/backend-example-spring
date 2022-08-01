@@ -4,9 +4,9 @@ import org.springframework.beans.BeanUtils
 import org.springframework.stereotype.Component
 import java.util.*
 
-/** A helper class that makes creating and copying beans easy.  */
+/** A helper class that makes creating and copying objects easy.  */
 @Component
-class BeanHelper {
+class CopyObjectHelper {
     fun <S: Any, T: Any> createAndCopyIterable(src: Iterable<S>, clazz: Class<T>): Iterable<T> {
         return createAndCopyIterable(src, clazz, null)
     }
